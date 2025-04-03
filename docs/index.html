@@ -11,24 +11,217 @@
 <body>
     <div class="container">
         <h1>Fake News Detection</h1>
-        <form method="POST" action="/predict">
+        <form method="POST" action="/predict" id="news-form">
             <textarea name="news_article" rows="10" placeholder="Paste your news article here..."></textarea>
             <button type="submit">Check News</button>
             <!-- Loader animation -->
             <div class="loader" id="loader" style="display:none;"></div>
         </form>
-        {% if prediction %}
-        <div class="result">
-            <h2><i class="fas fa-check-circle"></i> Result: {{ prediction }}</h2>
-            <p>{{ article }}</p>
+
+        <!-- Result container, initially hidden -->
+        <div id="result-container" style="display:none;">
+            <div class="result">
+                <h2><i class="fas fa-check-circle"></i> Result: <span id="prediction-result"></span></h2>
+                <p id="article-preview"></p>
+            </div>
         </div>
-        {% endif %}
     </div>
 
     <script>
-        document.querySelector("form").addEventListener("submit", function() {
+        document.querySelector("#news-form").addEventListener("submit", function(event) {
+            // Show the loader and hide result container on submit
+            event.preventDefault();  // Prevents form from submitting normally
             document.getElementById("loader").style.display = "block";
+            document.getElementById("result-container").style.display = "none";  // Hide result container
+
+            // Now, simulate the prediction (You can replace this with AJAX or Flask response logic)
+            setTimeout(function() {
+                // Hide loader and show prediction result
+                document.getElementById("loader").style.display = "none";
+                document.getElementById("result-container").style.display = "block";
+                
+                // Example result data
+                const prediction = "Real News";  // Replace this with dynamic Flask prediction
+                const articlePreview = "Here is a preview of the article content...";  // Replace with article content
+
+                document.getElementById("prediction-result").innerText = prediction;
+                document.getElementById("article-preview").innerText = articlePreview;
+            }, 2000); // Simulate a delay for prediction
         });
     </script>
+
+    <style>
+        /* styles.css */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #74ebd5, #acb6e5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: slideDown 0.8s ease;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        textarea:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.2);
+        }
+
+        button:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+            box-shadow: 0 8px 15px rgba(52, 152, 219, 0.2);
+        }
+
+        button:active {
+            background-color: #2471a3;
+            transform: scale(0.98);
+        }
+
+        .result {
+            background-color: #f9fafb;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 0.8s ease;
+            border-left: 6px solid #2ecc71;
+        }
+
+        .result h2 {
+            font-size: 1.8rem;
+            color: #2ecc71;
+            margin-bottom: 10px;
+        }
+
+        .result p {
+            font-size: 1rem;
+            color: #34495e;
+        }
+
+        /* Loader styling */
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 5px solid #3498db;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            textarea {
+                font-size: 0.9rem;
+            }
+
+            button {
+                font-size: 0.9rem;
+                padding: 8px 16px;
+            }
+        }
+    </style>
 </body>
 </html>
