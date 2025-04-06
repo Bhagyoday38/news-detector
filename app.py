@@ -5,7 +5,7 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.model_selection import train_test_split
 import re
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='docs')  # Specify the 'docs' folder as the template folder
 
 # Function to clean and normalize text data
 def preprocess_text(text):
@@ -14,9 +14,9 @@ def preprocess_text(text):
 
 # Load and prepare the datasets
 file_paths = [
-    r"C:\c code\news_detector[2]\news_detector\news detector\comprehensive_news_data.csv",
-    r"C:\c code\news_detector[2]\news_detector\news detector\fake_news_dataset.csv",
-    r"C:\c code\news_detector[2]\news_detector\news detector\news_data.csv"
+    r"C:\c code\news detector\comprehensive_news_data.csv",
+    r"C:\c code\news detector\fake_news_dataset.csv",
+    r"C:\c code\news detector\news_data.csv"
 ]
 
 dataframes = []
@@ -67,7 +67,7 @@ clf.fit(tfidf_train, y_train)
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('index.html')  # Ensure Flask looks in the 'docs' folder
 
 @app.route('/predict', methods=['POST'])
 def predict():
